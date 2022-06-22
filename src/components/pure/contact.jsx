@@ -2,41 +2,44 @@ import React,{useState}from 'react';
 import PropTypes from 'prop-types';
 import {Contact} from '../../models/contact.class';
 
-const ContactComponent=({contact}) =>{
+const ContactComponent=({contact, estado, remove}) =>{
 
 
-    const [conectado,setConectado]=useState(contact.conectado);
 
-    const activarContact=()=>{
-        
-        setConectado(!conectado)
-        contact.conectado=conectado
-        
+  
+
+    function contactEstadoIcon(){
+        if(contact.conectado){
+            return (<i onClick={()=>estado(contact)} className='bi-toggle-on task-action' style={{color:'green'}}>conectado</i>);
+        }else{
+            return (<i onClick={()=>estado(contact)} className='bi-toggle-off task-action' style={{color:'gray'}}>desconectado</i>);  
+        }
     }
     
     return(
 
-        <div>
-            <h3>
-                Nombre: { contact.name }
-            </h3>
-            <h3>
-                Apellido: { contact.apellido }
-            </h3>
-            <h3>
-                email: { contact.email }
-            </h3>
-            <h3>
-                You are: { contact.conectado ? "Contacto en Línea":"Contacto No Disponible" }
-            </h3>
+        <tr className='fw-normal'>
+            <td>
+                <span>{contact.name}</span>
+            </td>
+            <td>
+                <span>{contact.apellido}</span>
+            </td>
+            <td>
+                <span>{contact.email}</span>
+            </td>
+            <td className='align-middle'>
+                {contactEstadoIcon()}
+                {contact ? contact.conectado : contact.conectado}
+              
+            </td>
+            <td className='align-middle'>
+                <i className='bi-trash task-action' style={{color:'tomato'}} onClick={()=>remove(contact)}></i>
+            </td>
+           
 
-            <div>
-                <button onClick={activarContact}>
-                        disponible- NoDisponible
-                </button>
-            </div> 
+        </tr>
 
-        </div>
     )
 
 }
